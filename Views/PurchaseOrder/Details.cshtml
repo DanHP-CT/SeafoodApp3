@@ -41,20 +41,20 @@
         {
             @foreach (var item in Model.Details)
             {
-                        <tr>
-                            <td>@item.ProductName</td>
-                            <td>@item.Size</td>
-                            <td>@item.Price.ToString("N0")</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Amount.ToString("N0")</td>
-                        </tr>
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Size</td>
+                    <td>@item.Price.ToString("N0")</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Amount.ToString("N0")</td>
+                </tr>
             }
         }
         else
         {
-                <tr>
-                    <td colspan="5">Không có chi tiết</td>
-                </tr>
+            <tr>
+                <td colspan="5">Không có chi tiết</td>
+            </tr>
         }
     </tbody>
 </table>
@@ -62,4 +62,11 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
     <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    @if (Model.Status == "Chưa điều phối")
+    {
+        <form asp-action="Redirect" method="post" style="display:inline;">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary">Điều phối</button>
+        </form>
+    }
 </div>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SeafoodApp.Models.Entities; // Chỉ sử dụng namespace này
+using SeafoodApp.Models.Entities;
 
 namespace SeafoodApp.Data
 {
@@ -14,6 +14,9 @@ namespace SeafoodApp.Data
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public DbSet<Lot> Lots { get; set; }
+        public DbSet<Allocation> Allocations { get; set; }
+        public DbSet<ProductionOrder> ProductionOrders { get; set; }
+        public DbSet<ProductionOrderDetail> ProductionOrderDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +31,15 @@ namespace SeafoodApp.Data
 
             modelBuilder.Entity<Lot>()
                 .HasQueryFilter(l => !l.IsDeleted);
+
+            modelBuilder.Entity<Allocation>()
+                .HasQueryFilter(a => !a.IsDeleted);
+
+            modelBuilder.Entity<ProductionOrder>()
+                .HasQueryFilter(po => !po.IsDeleted);
+
+            modelBuilder.Entity<ProductionOrderDetail>()
+                .HasQueryFilter(d => !d.IsDeleted);
         }
     }
 }

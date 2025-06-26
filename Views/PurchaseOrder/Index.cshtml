@@ -40,9 +40,9 @@
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
                     @if (item.Status == "Chưa điều phối")
                     {
-                        <form asp-action="Allocate" method="post" style="display:inline;">
+                        <form asp-action="Redirect" method="post" style="display:inline;">
                             <input type="hidden" name="id" value="@item.Id" />
-                            <button type="submit" class="btn btn-sm btn-primary">Phân loại / Điều phối</button>
+                            <button type="submit" class="btn btn-sm btn-primary">Điều phối</button>
                         </form>
                     }
                 </td>

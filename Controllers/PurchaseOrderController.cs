@@ -49,7 +49,7 @@ namespace SeafoodApp.Controllers
             var purchaseOrder = await _purchaseOrderService.GetPurchaseOrderByIdAsync(id);
             if (purchaseOrder == null)
             {
-                return NotFound();
+                return NotFound($"Không tìm thấy phiếu mua với ID: {id}");
             }
 
             var viewModel = new PurchaseOrderViewModel
@@ -59,19 +59,19 @@ namespace SeafoodApp.Controllers
                 CreatedDate = purchaseOrder.CreatedDate,
                 SupplyDate = purchaseOrder.SupplyDate,
                 SupplierId = purchaseOrder.SupplierId,
-                SupplierName = purchaseOrder.Supplier.Name,
-                Status = purchaseOrder.Status,
+                SupplierName = purchaseOrder.Supplier?.Name ?? "Không có thông tin",
+                Status = purchaseOrder.Status ?? "Chưa điều phối",
                 TotalQuantity = purchaseOrder.TotalQuantity,
                 TotalAmount = purchaseOrder.TotalAmount,
-                Details = purchaseOrder.Details.Select(d => new PurchaseOrderDetailViewModel
+                Details = purchaseOrder.Details?.Select(d => new PurchaseOrderDetailViewModel
                 {
                     Id = d.Id,
-                    ProductName = d.ProductName,
-                    Size = d.Size,
+                    ProductName = d.ProductName ?? string.Empty,
+                    Size = d.Size ?? string.Empty,
                     Price = d.Price,
                     Quantity = d.Quantity,
                     Amount = d.Amount
-                }).ToList()
+                })?.ToList() ?? new List<PurchaseOrderDetailViewModel>()
             };
 
             return View(viewModel);
@@ -235,10 +235,9 @@ namespace SeafoodApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Allocate(int id)
+        public IActionResult Redirect(int id) // Đổi tên từ Allocate thành Redirect
         {
-            await _purchaseOrderService.AllocatePurchaseOrderAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Allocation", new { purchaseOrderId = id });
         }
     }
 }

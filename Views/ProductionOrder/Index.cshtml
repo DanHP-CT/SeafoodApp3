@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SeafoodApp.Models.ViewModels.ProductionOrderViewModel>
+
+@{
+    ViewData["Title"] = "Quản lý Lệnh sản xuất";
+}
+
+<h1>Quản lý Lệnh sản xuất</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table id="productionOrderTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Số lệnh</th>
+            <th>Số hợp đồng</th>
+            <th>Khách hàng</th>
+            <th>Ngày cung cấp bao bì</th>
+            <th>Ngày hoàn thành</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductionOrderNumber</td>
+                <td>@item.ContractNumber</td>
+                <td>@item.CustomerName</td>
+                <td>@item.PackagingSupplyDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.CompletionDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.Status</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#productionOrderTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json"
+                }
+            });
+        });
+    </script>
+}

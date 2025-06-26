@@ -1,0 +1,71 @@
+﻿@model SeafoodApp.Models.ViewModels.AllocationListViewModel
+
+@{
+    ViewData["Title"] = "Điều phối nguyên liệu";
+}
+
+<h1>Điều phối nguyên liệu cho Phiếu mua @Model.PurchaseOrderNumber</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tổng quan</h5>
+                <p>Tổng SL nhập: @Model.TotalInputQuantity kg</p>
+                <p>Tổng SL đã điều phối: @Model.TotalAllocatedQuantity kg</p>
+                <p>SL còn lại: @Model.RemainingQuantity kg</p>
+                @if (Model.RemainingQuantity > 0)
+                {
+                    <a asp-action="AllocateAll" asp-route-purchaseOrderId="@Model.PurchaseOrderId" class="btn btn-primary">Điều phối tất cả</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Số lô</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Size</th>
+                    <th class="quantity-column">SL nhập</th>
+                    <th class="quantity-column">SL đã điều phối</th>
+                    <th class="quantity-column">SL còn lại</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Allocations)
+                {
+                    <tr>
+                        <td>@item.LotNumber</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Size</td>
+                        <td class="quantity-column">@item.AllocatedQuantity kg</td>
+                        <td class="quantity-column">@item.AllocatedQuantity kg</td>
+                        <td class="quantity-column">@(Model.TotalInputQuantity - item.AllocatedQuantity) kg</td>
+                        <td>
+                            @if (Model.TotalInputQuantity - item.AllocatedQuantity > 0)
+                            {
+                                <a asp-action="Allocate" asp-route-id="@item.LotId" class="btn btn-sm btn-primary">Điều phối</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="PurchaseOrder" class="btn btn-secondary">Quay lại</a>
+</div>
+
+@section Styles {
+    <style>
+        .quantity-column {
+            width: 100px;
+            text-align: center;
+        }
+    </style>
+}

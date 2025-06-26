@@ -1,0 +1,62 @@
+﻿@model SeafoodApp.Models.ViewModels.AllocationListViewModel
+
+@{
+    ViewData["Title"] = "Điều phối tất cả";
+}
+
+<h1>Điều phối tất cả cho Phiếu mua @Model.PurchaseOrderNumber</h1>
+
+<form asp-action="AllocateAll" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="PurchaseOrderId" />
+    <input type="hidden" asp-for="PurchaseOrderNumber" />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Số lô</th>
+                <th>Tên sản phẩm</th>
+                <th>Size</th>
+                <th>SL còn lại</th>
+                <th>SL điều phối</th>
+                <th>Lệnh sản xuất (LSX)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Allocations.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" asp-for="Allocations[i].LotId" />
+                        <input type="hidden" asp-for="Allocations[i].LotNumber" />
+                        <input type="hidden" asp-for="Allocations[i].ProductName" />
+                        @Model.Allocations[i].LotNumber
+                    </td>
+                    <td>@Model.Allocations[i].ProductName</td>
+                    <td>
+                        <input asp-for="Allocations[i].Size" class="form-control" />
+                        <span asp-validation-for="Allocations[i].Size" class="text-danger"></span>
+                    </td>
+                    <td>@(Model.TotalInputQuantity - Model.Allocations[i].AllocatedQuantity)</td>
+                    <td>
+                        <input asp-for="Allocations[i].AllocatedQuantity" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="Allocations[i].AllocatedQuantity" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <select asp-for="Allocations[i].ProductionOrderId" class="form-control" asp-items="Model.Allocations[i].ProductionOrders"></select>
+                        <span asp-validation-for="Allocations[i].ProductionOrderId" class="text-danger"></span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Điều phối tất cả</button>
+        <a asp-action="Index" asp-route-purchaseOrderId="@Model.PurchaseOrderId" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+}

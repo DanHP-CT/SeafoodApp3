@@ -1,0 +1,63 @@
+﻿@model SeafoodApp.Models.ViewModels.ProductionOrderViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết Lệnh sản xuất";
+}
+
+<h1>Chi tiết Lệnh sản xuất</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Số lệnh</dt>
+        <dd class="col-sm-10">@Model.ProductionOrderNumber</dd>
+        <dt class="col-sm-2">Số hợp đồng</dt>
+        <dd class="col-sm-10">@Model.ContractNumber</dd>
+        <dt class="col-sm-2">Khách hàng</dt>
+        <dd class="col-sm-10">@Model.CustomerName</dd>
+        <dt class="col-sm-2">Ngày cung cấp bao bì</dt>
+        <dd class="col-sm-10">@Model.PackagingSupplyDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Ngày hoàn thành</dt>
+        <dd class="col-sm-10">@Model.CompletionDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+    </dl>
+</div>
+
+<h4>Chi tiết lệnh sản xuất</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Size</th>
+            <th>Đóng gói</th>
+            <th>Số lượng</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Details != null && Model.Details.Any())
+        {
+            @foreach (var item in Model.Details)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Size</td>
+                    <td>@item.Packaging</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Note</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">Không có chi tiết</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>
