@@ -1,0 +1,67 @@
+﻿@model IEnumerable<SeafoodApp.Models.ViewModels.PurchaseOrderViewModel>
+
+@{
+    ViewData["Title"] = "Quản lý Phiếu mua nguyên liệu";
+}
+
+<h1>Quản lý Phiếu mua nguyên liệu</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table id="purchaseOrderTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Số phiếu</th>
+            <th>Ngày lập</th>
+            <th>Ngày cung cấp</th>
+            <th>Nhà cung cấp</th>
+            <th>Trạng thái</th>
+            <th>Tổng số lượng</th>
+            <th>Tổng thành tiền</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PurchaseOrderNumber</td>
+                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.SupplyDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.SupplierName</td>
+                <td>@item.Status</td>
+                <td>@item.TotalQuantity</td>
+                <td>@item.TotalAmount.ToString("N0")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                    @if (item.Status == "Chưa điều phối")
+                    {
+                        <form asp-action="Allocate" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-primary">Phân loại / Điều phối</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#purchaseOrderTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json"
+                }
+            });
+        });
+    </script>
+}

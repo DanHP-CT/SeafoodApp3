@@ -1,0 +1,29 @@
+﻿@model SeafoodApp.Models.ViewModels.SupplierViewModel
+
+@{
+    ViewData["Title"] = "Xóa Nhà cung cấp";
+}
+
+<h1>Xóa Nhà cung cấp</h1>
+
+<h3>Bạn có chắc muốn xóa nhà cung cấp này?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Tên</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Địa chỉ</dt>
+        <dd class="col-sm-10">@Model.Address</dd>
+        <dt class="col-sm-2">Mã số thuế</dt>
+        <dd class="col-sm-10">@Model.TaxCode</dd>
+        <dt class="col-sm-2">Người liên hệ</dt>
+        <dd class="col-sm-10">@Model.ContactPerson</dd>
+        <dt class="col-sm-2">Số điện thoại</dt>
+        <dd class="col-sm-10">@Model.Phone</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

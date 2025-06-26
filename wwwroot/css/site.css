@@ -1,0 +1,16 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}

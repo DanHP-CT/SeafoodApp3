@@ -1,0 +1,65 @@
+﻿@model SeafoodApp.Models.ViewModels.PurchaseOrderViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết Phiếu mua nguyên liệu";
+}
+
+<h1>Chi tiết Phiếu mua nguyên liệu</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Số phiếu</dt>
+        <dd class="col-sm-10">@Model.PurchaseOrderNumber</dd>
+        <dt class="col-sm-2">Ngày lập</dt>
+        <dd class="col-sm-10">@Model.CreatedDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Ngày cung cấp</dt>
+        <dd class="col-sm-10">@Model.SupplyDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Nhà cung cấp</dt>
+        <dd class="col-sm-10">@Model.SupplierName</dd>
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+        <dt class="col-sm-2">Tổng số lượng</dt>
+        <dd class="col-sm-10">@Model.TotalQuantity</dd>
+        <dt class="col-sm-2">Tổng thành tiền</dt>
+        <dd class="col-sm-10">@Model.TotalAmount.ToString("N0")</dd>
+    </dl>
+</div>
+
+<h4>Chi tiết phiếu mua</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Size</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Details != null && Model.Details.Any())
+        {
+            @foreach (var item in Model.Details)
+            {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Size</td>
+                            <td>@item.Price.ToString("N0")</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Amount.ToString("N0")</td>
+                        </tr>
+            }
+        }
+        else
+        {
+                <tr>
+                    <td colspan="5">Không có chi tiết</td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>
