@@ -2,6 +2,7 @@
 using SeafoodApp.Models.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SeafoodApp.Services
 {
@@ -12,6 +13,8 @@ namespace SeafoodApp.Services
         Task CreateProductionOrderAsync(ProductionOrder productionOrder);
         Task UpdateProductionOrderAsync(ProductionOrder productionOrder);
         Task DeleteProductionOrderAsync(int id);
-        Task<string> GenerateProductionOrderNumberAsync();
+        Task<List<SelectListItem>> GetActiveSuppliersAsync();
+        Task<ProductionOrderDetailViewModel> GetProductionOrderDetailAsync(int id);
+        Task CreateProcessingTicketFromProductionOrderAsync(int productionOrderId, ProductionOrderDetailViewModel model);
     }
 }

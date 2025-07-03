@@ -1,0 +1,44 @@
+﻿@model SeafoodApp.Models.Entities.ProcessingStage
+
+@{
+    ViewData["Title"] = "Thêm Công đoạn chế biến";
+}
+
+<h1>Thêm Công đoạn chế biến</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="StageName" class="control-label"></label>
+        <input asp-for="StageName" class="form-control" />
+        <span asp-validation-for="StageName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="InputMaterial" class="control-label"></label>
+        <input asp-for="InputMaterial" class="form-control" />
+        <span asp-validation-for="InputMaterial" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OutputProduct" class="control-label"></label>
+        <input asp-for="OutputProduct" class="form-control" />
+        <span asp-validation-for="OutputProduct" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StandardRate" class="control-label"></label>
+        <input asp-for="StandardRate" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="StandardRate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

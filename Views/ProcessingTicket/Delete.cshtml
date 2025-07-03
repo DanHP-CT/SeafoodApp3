@@ -1,0 +1,27 @@
+﻿@model SeafoodApp.Models.ViewModels.ProcessingTicketViewModel
+
+@{
+    ViewData["Title"] = "Xóa Phiếu chế biến";
+}
+
+<h1>Xóa Phiếu chế biến</h1>
+
+<h3>Bạn có chắc muốn xóa phiếu chế biến này?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Số phiếu</dt>
+        <dd class="col-sm-10">@Model.ProcessingTicketNumber</dd>
+        <dt class="col-sm-2">Lệnh sản xuất</dt>
+        <dd class="col-sm-10">@Model.ProductionOrderNumber</dd>
+        <dt class="col-sm-2">Ngày chế biến</dt>
+        <dd class="col-sm-10">@Model.ProcessingDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Trạng thái</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

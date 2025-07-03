@@ -1,0 +1,68 @@
+﻿@model SeafoodApp.Models.ViewModels.InventoryViewModel
+
+@{
+    ViewData["Title"] = "Sửa Kho lạnh";
+}
+
+<h1>Sửa Kho lạnh</h1>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="LotNumber" class="control-label"></label>
+        <input asp-for="LotNumber" class="form-control" />
+        <span asp-validation-for="LotNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProductName" class="control-label"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProductType" class="control-label"></label>
+        <select asp-for="ProductType" class="form-control">
+            <option value="BTP">Bán thành phẩm</option>
+            <option value="TP">Thành phẩm</option>
+        </select>
+        <span asp-validation-for="ProductType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Size" class="control-label"></label>
+        <input asp-for="Size" class="form-control" />
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="InputQuantity" class="control-label"></label>
+        <input asp-for="InputQuantity" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="InputQuantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OutputQuantity" class="control-label"></label>
+        <input asp-for="OutputQuantity" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="OutputQuantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="InputDate" class="control-label"></label>
+        <input asp-for="InputDate" class="form-control" type="date" />
+        <span asp-validation-for="InputDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OutputDate" class="control-label"></label>
+        <input asp-for="OutputDate" class="form-control" type="date" />
+        <span asp-validation-for="OutputDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Note" class="control-label"></label>
+        <input asp-for="Note" class="form-control" />
+        <span asp-validation-for="Note" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

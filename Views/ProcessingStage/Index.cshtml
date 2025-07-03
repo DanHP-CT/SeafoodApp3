@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SeafoodApp.Models.Entities.ProcessingStage>
+
+@{
+    ViewData["Title"] = "Danh sách Công đoạn chế biến";
+}
+
+<h1>Danh sách Công đoạn chế biến</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên công đoạn</th>
+            <th>Mô tả</th>
+            <th>Nguyên liệu đầu vào</th>
+            <th>Sản phẩm đầu ra</th>
+            <th>Định mức (kg/người/giờ)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.StageName</td>
+                <td>@item.Description</td>
+                <td>@item.InputMaterial</td>
+                <td>@item.OutputProduct</td>
+                <td>@item.StandardRate</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

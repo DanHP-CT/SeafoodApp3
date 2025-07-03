@@ -17,6 +17,11 @@ namespace SeafoodApp.Data
         public DbSet<Allocation> Allocations { get; set; }
         public DbSet<ProductionOrder> ProductionOrders { get; set; }
         public DbSet<ProductionOrderDetail> ProductionOrderDetails { get; set; }
+        public DbSet<ProcessingTicket> ProcessingTickets { get; set; }
+        public DbSet<ProcessingTicketDetail> ProcessingTicketDetails { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<ProcessingStage> ProcessingStages { get; set; }
+        public DbSet<ProductWageRate> ProductWageRates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +45,21 @@ namespace SeafoodApp.Data
 
             modelBuilder.Entity<ProductionOrderDetail>()
                 .HasQueryFilter(d => !d.IsDeleted);
+
+            modelBuilder.Entity<ProcessingTicket>()
+                .HasQueryFilter(pt => !pt.IsDeleted);
+
+            modelBuilder.Entity<ProcessingTicketDetail>()
+                .HasQueryFilter(d => !d.IsDeleted);
+
+            modelBuilder.Entity<Inventory>()
+                .HasQueryFilter(i => !i.IsDeleted);
+
+            modelBuilder.Entity<ProcessingStage>()
+                .HasQueryFilter(s => !s.IsDeleted);
+
+            modelBuilder.Entity<ProductWageRate>()
+                .HasQueryFilter(w => !w.IsDeleted);
         }
     }
 }

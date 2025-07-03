@@ -30,6 +30,18 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="ProductionOrder" asp-action="Index">Lệnh sản xuất</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="ProcessingTicket" asp-action="Index">Phiếu chế biến</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Inventory" asp-action="Index">Kho lạnh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="ProcessingStage" asp-action="Index">Công đoạn chế biến</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="ProductWageRate" asp-action="Index">Đơn giá lương sản phẩm</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -37,13 +49,20 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            © 2025 - SeafoodApp
+            © 2025 - Dan
         </div>
     </footer>
 

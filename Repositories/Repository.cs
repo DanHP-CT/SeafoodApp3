@@ -8,42 +8,42 @@ namespace SeafoodApp.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly AppDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbSet<T> _entities;
 
         public Repository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<T>();
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync();
+            _entities = context.Set<T>();
         }
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _entities.FindAsync(id); // Trả về Task<T?> để khớp với IRepository<T>
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _entities.ToListAsync();
         }
 
         public async Task AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            await _entities.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            _entities.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await _entities.FindAsync(id);
             if (entity != null)
             {
-                _context.Entry(entity).Property("IsDeleted").CurrentValue = true;
+                _entities.Remove(entity);
                 await _context.SaveChangesAsync();
             }
         }

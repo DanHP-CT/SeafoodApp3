@@ -1,0 +1,23 @@
+﻿@model SeafoodApp.Models.Entities.ProductWageRate
+
+@{
+    ViewData["Title"] = "Xóa Đơn giá lương sản phẩm";
+}
+
+<h1>Xóa Đơn giá lương sản phẩm</h1>
+
+<h3>Bạn có chắc muốn xóa đơn giá này?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Công đoạn</dt>
+        <dd class="col-sm-10">@Model.ProcessingStage.StageName</dd>
+        <dt class="col-sm-2">Đơn giá lương</dt>
+        <dd class="col-sm-10">@Model.WageRate VND/kg</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

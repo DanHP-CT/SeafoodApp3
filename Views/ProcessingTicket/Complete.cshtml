@@ -1,0 +1,92 @@
+﻿@model SeafoodApp.Models.ViewModels.ProcessingTicketViewModel
+
+@{
+    ViewData["Title"] = "Hoàn thành Phiếu chế biến";
+}
+
+<h1>Hoàn thành Phiếu chế biến @Model.ProcessingTicketNumber</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="Complete" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="ProcessingTicketNumber" class="control-label">Số phiếu chế biến</label>
+        <input asp-for="ProcessingTicketNumber" class="form-control" readonly />
+        <span asp-validation-for="ProcessingTicketNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProductionOrderId" class="control-label">Lệnh sản xuất</label>
+        <select asp-for="ProductionOrderId" class="form-control" asp-items="Model.ProductionOrders" disabled></select>
+        <span asp-validation-for="ProductionOrderId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProcessingStageId" class="control-label">Công đoạn chế biến</label>
+        <select asp-for="ProcessingStageId" class="form-control" asp-items="Model.ProcessingStages" disabled></select>
+        <span asp-validation-for="ProcessingStageId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProcessingDate" class="control-label">Ngày chế biến</label>
+        <input asp-for="ProcessingDate" class="form-control" type="date" readonly />
+        <span asp-validation-for="ProcessingDate" class="text-danger"></span>
+    </div>
+    <h4>Chi tiết chế biến</h4>
+    <table class="table" id="details">
+        <thead>
+            <tr>
+                <th>Số lô</th>
+                <th>Đầu vào: Sản phẩm</th>
+                <th>Đầu vào: Size</th>
+                <th>Đầu vào: Số lượng</th>
+                <th>Đầu ra: Sản phẩm</th>
+                <th>Đầu ra: Size</th>
+                <th>Đầu ra: Số lượng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Details.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="Details[i].Id" type="hidden" />
+                        <input asp-for="Details[i].LotNumber" class="form-control" readonly />
+                    </td>
+                    <td><input asp-for="Details[i].ProductName" class="form-control" readonly /></td>
+                    <td><input asp-for="Details[i].Size" class="form-control" readonly /></td>
+                    <td><input asp-for="Details[i].ProcessedQuantity" class="form-control" type="number" step="0.01" readonly /></td>
+                    <td><input asp-for="Details[i].OutputProductName" class="form-control" /></td>
+                    <td><input asp-for="Details[i].OutputSize" class="form-control" /></td>
+                    <td><input asp-for="Details[i].OutputQuantity" class="form-control" type="number" step="0.01" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <label class="control-label">Chi phí lao động</label>
+        <input class="form-control" value="@ViewBag.LaborCost.ToString("N0") VND" readonly />
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary" name="action" value="Chuyển công đoạn tiếp theo">Chuyển công đoạn tiếp theo</button>
+        <button type="submit" class="btn btn-success" name="action" value="Nhập kho BTP">Nhập kho BTP</button>
+        <button type="submit" class="btn btn-info" name="action" value="Nhập kho TP">Nhập kho TP</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // JavaScript để xử lý thêm dòng nếu cần
+        });
+    </script>
+}

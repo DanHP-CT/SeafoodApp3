@@ -1,0 +1,129 @@
+﻿@model SeafoodApp.Models.ViewModels.ProcessingTicketViewModel
+
+@{
+    ViewData["Title"] = "Sửa Phiếu chế biến";
+}
+
+<h1>Sửa Phiếu chế biến</h1>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="ProcessingTicketNumber" class="control-label"></label>
+        <input asp-for="ProcessingTicketNumber" class="form-control" readonly />
+        <span asp-validation-for="ProcessingTicketNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProductionOrderId" class="control-label"></label>
+        <select asp-for="ProductionOrderId" class="form-control" asp-items="Model.ProductionOrders"></select>
+        <span asp-validation-for="ProductionOrderId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProcessingStageId" class="control-label"></label>
+        <select asp-for="ProcessingStageId" class="form-control" asp-items="Model.ProcessingStages"></select>
+        <span asp-validation-for="ProcessingStageId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProcessingDate" class="control-label"></label>
+        <input asp-for="ProcessingDate" class="form-control" type="date" />
+        <span asp-validation-for="ProcessingDate" class="text-danger"></span>
+    </div>
+    <h4>Chi tiết chế biến</h4>
+    <table class="table" id="details">
+        <thead>
+            <tr>
+                <th>Số lô</th>
+                <th>Đầu vào: Sản phẩm</th>
+                <th>Đầu vào: Size</th>
+                <th>Đầu vào: Số lượng</th>
+                <th>Đầu ra: Sản phẩm</th>
+                <th>Đầu ra: Size</th>
+                <th>Đầu ra: Số lượng</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Details.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="Details[i].Id" type="hidden" />
+                        <select asp-for="Details[i].AllocationId" class="form-control" asp-items="ViewBag.Allocations"></select>
+                        <span asp-validation-for="Details[i].AllocationId" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="Details[i].ProductName" class="form-control" readonly />
+                        <span asp-validation-for="Details[i].ProductName" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="Details[i].Size" class="form-control" readonly />
+                        <span asp-validation-for="Details[i].Size" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="Details[i].ProcessedQuantity" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="Details[i].ProcessedQuantity" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="Details[i].OutputProductName" class="form-control" />
+                        <span asp-validation-for="Details[i].OutputProductName" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="Details[i].OutputSize" class="form-control" />
+                        <span asp-validation-for="Details[i].OutputSize" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="Details[i].OutputQuantity" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="Details[i].OutputQuantity" class="text-danger"></span>
+                    </td>
+                    <td><button type="button" class="btn btn-danger remove-row">Xóa</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" id="add-row">Thêm dòng</button>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#add-row").click(function () {
+                var index = $("#details tbody tr").length;
+                var row = `<tr>
+                    <td><input name="Details[${index}].Id" type="hidden" value="0" /><select name="Details[${index}].AllocationId" class="form-control"><option value="">Chọn lô</option></select><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].AllocationId" data-valmsg-replace="true"></span></td>
+                    <td><input name="Details[${index}].ProductName" class="form-control" readonly /><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].ProductName" data-valmsg-replace="true"></span></td>
+                    <td><input name="Details[${index}].Size" class="form-control" readonly /><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].Size" data-valmsg-replace="true"></span></td>
+                    <td><input name="Details[${index}].ProcessedQuantity" class="form-control" type="number" step="0.01" /><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].ProcessedQuantity" data-valmsg-replace="true"></span></td>
+                    <td><input name="Details[${index}].OutputProductName" class="form-control" /><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].OutputProductName" data-valmsg-replace="true"></span></td>
+                    <td><input name="Details[${index}].OutputSize" class="form-control" /><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].OutputSize" data-valmsg-replace="true"></span></td>
+                    <td><input name="Details[${index}].OutputQuantity" class="form-control" type="number" step="0.01" /><span class="text-danger field-validation-valid" data-valmsg-for="Details[${index}].OutputQuantity" data-valmsg-replace="true"></span></td>
+                    <td><button type="button" class="btn btn-danger remove-row">Xóa</button></td>
+                </tr>`;
+                $("#details tbody").append(row);
+            });
+
+            $(document).on("change", "select[name^='Details']", function () {
+                var index = $(this).closest("tr").index();
+                var allocationId = $(this).val();
+                if (allocationId) {
+                    $.get(`/ProcessingTicket/GetAllocationDetails?allocationId=${allocationId}`, function (data) {
+                        if (data.success) {
+                            $(`input[name='Details[${index}].ProductName']`).val(data.productName);
+                            $(`input[name='Details[${index}].Size']`).val(data.size);
+                        }
+                    });
+                }
+            });
+
+            $(document).on("click", ".remove-row", function () {
+                $(this).closest("tr").remove();
+            });
+        });
+    </script>
+}

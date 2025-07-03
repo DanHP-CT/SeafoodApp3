@@ -1,0 +1,65 @@
+﻿@model SeafoodApp.Models.ViewModels.InventoryFilterViewModel
+
+@{
+    ViewData["Title"] = "Quản lý Kho lạnh";
+}
+
+<h1>Quản lý Kho lạnh</h1>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="LotNumber" class="control-label"></label>
+            <input asp-for="LotNumber" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="ProductName" class="control-label"></label>
+            <input asp-for="ProductName" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="ProductType" class="control-label"></label>
+            <select asp-for="ProductType" class="form-control" asp-items="Model.ProductTypes"></select>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="Size" class="control-label"></label>
+            <input asp-for="Size" class="form-control" />
+        </div>
+    </div>
+    <div class="mt-2">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a asp-action="Create" class="btn btn-success">Thêm mới</a>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã lô</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại</th>
+            <th>Size</th>
+            <th>Tồn kho</th>
+            <th>Ngày nhập</th>
+            <th>Ghi chú</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Inventories)
+        {
+            <tr>
+                <td>@item.LotNumber</td>
+                <td>@item.ProductName</td>
+                <td>@item.ProductType</td>
+                <td>@item.Size</td>
+                <td>@item.StockQuantity kg</td>
+                <td>@item.InputDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.Note</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
