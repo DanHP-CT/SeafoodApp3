@@ -1,47 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SeafoodApp.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
-namespace SeafoodApp.Models.ViewModels
-{
-    public class ProductionOrderViewModel
-    {
-        public int Id { get; set; }
+[Required(ErrorMessage = "Production Order Number is required")]
+[Display(Name = "Production Order Number")]
+public string? ProductionOrderNumber { get; set; }
 
-        [Required(ErrorMessage = "Số lệnh sản xuất là bắt buộc")]
-        public string ProductionOrderNumber { get; set; } = string.Empty;
+[Display(Name = "Contract Number")]
+public string? ContractNumber { get; set; }
 
-        [Required(ErrorMessage = "Số hợp đồng là bắt buộc")]
-        public string ContractNumber { get; set; } = string.Empty;
+[Display(Name = "Customer Name")]
+public string? CustomerName { get; set; }
 
-        [Required(ErrorMessage = "Tên khách hàng là bắt buộc")]
-        public string CustomerName { get; set; } = string.Empty;
+[Display(Name = "Packaging Supply Date")]
+[DataType(DataType.Date)]
+public DateTime? PackagingSupplyDate { get; set; }
 
-        [Required(ErrorMessage = "Ngày cung cấp bao bì là bắt buộc")]
-        public DateTime PackagingSupplyDate { get; set; } = DateTime.Now;
+[Display(Name = "Completion Date")]
+[DataType(DataType.Date)]
+public DateTime? CompletionDate { get; set; }
 
-        [Required(ErrorMessage = "Ngày hoàn thành là bắt buộc")]
-        public DateTime CompletionDate { get; set; } = DateTime.Now;
+[Display(Name = "Status")]
+public string? Status { get; set; }
 
-        public string Status { get; set; } = "Đang sản xuất";
-
-        public List<ProductionOrderDetailViewModel> Details { get; set; } = new();
-    }
-
-    public class ProductionOrderDetailViewModel
-    {
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "Tên sản phẩm là bắt buộc")]
-        public string ProductName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Size là bắt buộc")]
-        public string Size { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Đóng gói là bắt buộc")]
-        public string Packaging { get; set; } = string.Empty;
-
-        [Range(0, double.MaxValue, ErrorMessage = "Số lượng phải lớn hơn hoặc bằng 0")]
-        public decimal Quantity { get; set; }
-
-        public string Note { get; set; } = string.Empty;
-    }
+public List<ProductionOrderDetailViewModel> Details { get; set; } = new List<ProductionOrderDetailViewModel>();
 }
